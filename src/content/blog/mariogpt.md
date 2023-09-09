@@ -1,12 +1,9 @@
 ---
-layout: ../../layouts/BlogLayout.astro
-slug: mariogpt 
+postslug: mariogpt 
 title: It's a me, MarioGPT! 🍄
-description: 
 authors:
   - Lukas Rasocha 
   - Ludek Cizinsky
-format: paper
 tags:
   - pcg
   - large-language-models

@@ -1,12 +1,9 @@
 ---
-layout: ../../layouts/BlogLayout.astro
-slug: vit
+postslug: vit
 title: Is An Image Worth 16x16 Words? 🖼️
-description: 
 authors:
   - Mika Senghaas
   - Ludek Cizinsky
-format: paper
 tags:
   - computer-vision
   - transformers

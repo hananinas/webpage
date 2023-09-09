@@ -1,12 +1,10 @@
 ---
-layout: ../../layouts/BlogLayout.astro
-slug: music-lm
+postslug: music-lm
 title: Music LM 📻
 description: In our second meeting, we explored the space of audio generation from text description. This time, with many more members than the last time!
 authors:
   - Ludek Cizinsky
   - Mika Senghaas
-format: paper
 tags:
   - music-generation
   - text-to-audio

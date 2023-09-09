@@ -1,7 +1,7 @@
 import type { CollectionEntry } from "astro:content";
 
-const getSortedPosts = (posts: CollectionEntry<"blog">[]) =>
-  posts
+const getSortedPosts = (events: CollectionEntry<"event">[]) =>
+  events
     .filter(({ data }) => !data.draft)
     .sort(
       (a, b) =>

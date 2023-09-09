@@ -1,0 +1,29 @@
+---
+import type{ CollectionEntry} from "astro:content";
+import { getCollection } from "astro:content";
+import BlogLayout from "@layouts/BlogLayout.astro";
+import getSortedPosts from "@utils/getSortedPosts";
+import slugify from "@utils/slugify";
+
+export interface Props {
+  post: CollectionEntry<"blog">;
+}
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+
+  const postResult = posts.map(post => ({
+    params: { slug: slugify(post.data) },
+    props: { post },
+  }));
+
+  return [...postResult];
+
+}
+const { slug } = Astro.params;
+const { post } = Astro.props;
+
+
+---
+
+<BlogLayout post={post} /> 

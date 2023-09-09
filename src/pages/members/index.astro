@@ -1,0 +1,30 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Search from "../../components/Search";
+import {getCollection } from "astro:content";
+import Members from "../../components/Members";
+// Retrieve all articles
+const posts = await getCollection("member", ({ data }) => !data.draft);
+
+// List of items to search in
+const membersList = posts.map(({ data }) => ({
+  name: data.name,
+  role: data.role,
+  since: data.since,
+  data,
+}));
+
+---
+
+<Layout title="Events | AITU" description="AITU Blog">
+  <main>
+    <div class="mt-10">
+      <a href="/" class="text-sm text-accent">Back</a>
+      <h1 class="my-6 text-3xl font-medium sm:text-4xl">Members</h1>
+      <p class="text-lg font-light text-secondary md:w-3/4">
+        Meet the current members of AITU
+      </p>
+    </div>
+  </main>
+  <Members client:load memberList={membersList}/>
+</Layout>

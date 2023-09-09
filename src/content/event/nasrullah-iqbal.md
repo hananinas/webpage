@@ -1,6 +1,5 @@
 ---
-layout: ../../layouts/BlogLayout.astro
-slug: nasrullah-iqbal
+postslug: nasrullah-iqbal
 title: Nasrullah Iqbal on the History and Future of AI
 description: 
   Nasrullah Iqbal was awarded with a master's degree in artificial
@@ -9,7 +8,6 @@ description:
 authors:
   - Mika Senghaas
   - Lukas Rasocha
-format: event
 tags:
   - talk
   - event

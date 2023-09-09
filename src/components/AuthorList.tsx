@@ -1,12 +1,12 @@
 import type { Author } from "@utils/types";
 
 type Props = {
-  authors: Author[];
+  authors: String[];
 };
 export default function AuthorList({ authors }: Props) {
   return (
     <div className="flex items-center">
-      {authors.map((author: Author) => (
+      {authors.map((author: String) => (
         <img
           src={`/authors/${author.toLowerCase().replaceAll(" ", "-")}.jpg`}
           alt={`Image of ${author}`}

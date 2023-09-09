@@ -3,25 +3,30 @@ import Layout from "@layouts/Layout.astro";
 import Badge from "@/components/Badge";
 import AuthorList from "@/components/AuthorList";
 import TagList from "@/components/TagList.astro";
+import type { CollectionEntry } from "astro:content";
 
-import type { Frontmatter } from "@/utils/types";
+export interface Props {
+  post: CollectionEntry<"blog">;
+}
+const { post } = Astro.props;
 
-const frontmatter: Frontmatter = Astro.props.frontmatter;
+const { Content,remarkPluginFrontmatter } = await post.render();
+
 ---
 
 <Layout
-  title={`${frontmatter.title} | AITU`}
-  headerTitle={frontmatter.title}
-  description={frontmatter.description}
-  ogImage={frontmatter.ogImage.src}
+  title={`${post.data.title} | AITU`}
+  headerTitle={post.data.title}
+  description={post.data.description}
+  ogImage={post.data.ogImage.src}
 >
   <div
     id="banner"
     class="absolute top-[160px] w-screen left-1/2 -translate-x-1/2 overflow-y-hidden transition-all duration-500"
   >
     <img
-      src={frontmatter.banner.src}
-      alt={frontmatter.banner.alt}
+      src={post.data.banner.src}
+      alt={post.data.banner.alt}
       class="w-full h-[400px] object-cover parallax"
     />
   </div>
@@ -29,13 +34,13 @@ const frontmatter: Frontmatter = Astro.props.frontmatter;
     <div class="py-10">
       <a href="/blog" class="text-sm text-accent">Back</a>
       <h1 id="title" class="my-6 text-3xl font-medium sm:text-4xl lg:text-5xl">
-        {frontmatter.title}
+        {post.data.title}
       </h1>
       <div class="flex items-center w-full my-2 space-x-1">
         <p class="text-sm sm:text-md text-secondary">
           Published
           {
-            new Date(frontmatter.published.replace(/-/g, "/")).toLocaleString(
+            new Date(post.data.published.replace(/-/g, "/")).toLocaleString(
               "en-US",
               {
                 year: "numeric",
@@ -47,15 +52,15 @@ const frontmatter: Frontmatter = Astro.props.frontmatter;
         </p>
         <p class="text-md text-secondary">·</p>
         <Badge>
-          <p class="text-sm">{frontmatter.minutesRead}</p>
+          <p class="text-sm">{remarkPluginFrontmatter.minutesRead}</p>
         </Badge>
       </div>
-      <AuthorList authors={frontmatter.authors} />
+      <AuthorList authors={post.data.authors} />
     </div>
     <article class="my-10">
-      <slot />
+      <Content />
     </article>
-    <TagList tags={frontmatter.tags} />
+    <TagList tags={post.data.tags} />
   </div>
 </Layout>
 

@@ -1,12 +1,9 @@
 ---
-layout: ../../layouts/BlogLayout.astro
-slug: llama 
+postslug: llama 
 title: LLaMA 🦙 - LLM by Meta AI
-description: 
 authors:
   - Ludek Cizinsky
   - Mika Senghaas
-format: paper
 tags:
   - transformers
   - nlp

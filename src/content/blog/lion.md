@@ -1,6 +1,5 @@
 ---
-layout: ../../layouts/BlogLayout.astro
-slug: lion
+postslug: lion
 title: Lion Optimisation 🦁
 description: 
     Lion is a new optimisation technique claiming to outperform the current 
@@ -9,7 +8,6 @@ description:
     what makes it special.
 authors:
   - Mika Senghaas
-format: paper
 tags:
   - optimisation-theory
   - symbolic-programming
