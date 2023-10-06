@@ -1,3 +1,2 @@
+/// <reference types="astro/client" />
 /// <reference path="../.astro/types.d.ts" />
-PUBLIC_SUPABASE_URL=https://tasmhrkwnkywpvezydhv.supabase.co
-PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRhc21ocmt3bmt5d3B2ZXp5ZGh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTY0OTE3MjQsImV4cCI6MjAxMjA2NzcyNH0.V0lpSMVtoQAdEdVm5vKpKIdYwUvWBEMCQaj3-CpA-Uk
