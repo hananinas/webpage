@@ -16,7 +16,6 @@ export type Frontmatter = {
   title: string;
   description: string;
   authors: Author[];
-  format: Format;
   ogImage: Image;
   banner: Image;
   tags: string[];

@@ -1,12 +1,9 @@
 ---
-layout: ../../layouts/BlogLayout.astro
-slug: spotify-mood 
+postslug: spotify-mood 
 title: 🎵 Spotify Lyrics-Mood Association Analysis 
-description: 
 authors:
   - Krzysztof Parocki
   - Mika Senghaas
-format: paper
 tags:
   - spotify
   - transformers

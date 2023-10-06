@@ -1,19 +1,14 @@
 ---
 import Card from "@components/Card";
+import getSortedPosts from "@utils/getSortedPosts";
+import slugify from "@utils/slugify";
 import type { Frontmatter } from "@utils/types";
+import { getCollection } from "astro:content";
 
-function comparePosts(postA: any, postB: any) {
-  const frontmatterA: Frontmatter = postA.frontmatter;
-  const frontmatterB: Frontmatter = postB.frontmatter;
-  if (new Date(frontmatterA.published) < new Date(frontmatterB.published)) {
-    return 1;
-  }
-  return -1;
-}
 
-const posts = await Astro.glob("../pages/blog/*.md");
-const papers = posts.filter((post) => post.frontmatter.format === "paper");
-const mostRecent = papers.sort(comparePosts).slice(0, 3);
+
+const posts = await getCollection("blog");
+const mostRecent = getSortedPosts(posts);
 ---
 
 <div id="paper-archive" class="pt-32 sm:my-40">
@@ -32,7 +27,7 @@ const mostRecent = papers.sort(comparePosts).slice(0, 3);
   </p>
   <div class="flex flex-col mt-20 space-y-10">
     {/* @ts-ignore */}
-    {mostRecent.map((post) => <Card frontmatter={post.frontmatter} centered />)}
+    {mostRecent.map((post) => <Card href={`/blog/${slugify(post.data)}`} frontmatter={post.data} centered />)}
   </div>
   <div class="flex items-center justify-center mt-10">
     <a

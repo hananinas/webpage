@@ -1,11 +1,9 @@
 ---
-layout: ../../layouts/BlogLayout.astro
-slug: shyam-sudhakaran
+postslug: shyam-sudhakaran
 title: Shyam Sudhakaran on MarioGPT
 description: We talked to the main author of MarioGPT, Shyam Sudhakaran. Read about our experience!
 authors:
   - Mika Senghaas
-format: event
 tags:
   - meeting
   - faq

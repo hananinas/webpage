@@ -1,16 +1,17 @@
 import Badge from "@components/Badge";
 import AuthorList from "@components/AuthorList";
-import type { Frontmatter } from "../utils/types";
+import type { BlogFrontmatter,EventFrontmatter } from "@content/_schemas";
 
 type Props = {
-  frontmatter: Frontmatter;
+  href: string;
+  frontmatter: BlogFrontmatter | EventFrontmatter;
   centered?: boolean;
 };
 
-export default function Card({ frontmatter, centered }: Props) {
+export default function Card({href ,frontmatter, centered }: Props) {
   return (
     <a
-      href={`/blog/${frontmatter.slug}`}
+      href={href}
       className="rounded-lg group nounderline"
     >
       <div className="flex flex-col sm:flex-row sm:space-x-10 sm:items-center">
@@ -26,8 +27,8 @@ export default function Card({ frontmatter, centered }: Props) {
         </div>
         <div className={`flex flex-col py-6`}>
           <div className="flex items-center space-x-1">
-            <Badge>
-              <p className="text-sm uppercase">{frontmatter.format}</p>
+            <Badge color="bg-accent-dark">
+              <p className="text-sm uppercase"> {frontmatter.format}</p>
             </Badge>
             <p className="text-tertiary">
               ·{" "}

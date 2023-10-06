@@ -1,14 +1,24 @@
 import Fuse from "fuse.js";
 import { useEffect, useRef, useState } from "react";
 import Card from "@components/Card";
-import type { Frontmatter } from "@utils/types";
+import type { CollectionEntry } from "astro:content";
+import type { BlogFrontmatter,EventFrontmatter, MemberFrontmatter } from "@content/_schemas";
+import slugify from "@utils/slugify";
+
+export type SearchItem = {
+  title: string;
+  description: string;
+  tags: string[];
+  authors: string[];
+  data: BlogFrontmatter | EventFrontmatter | MemberFrontmatter;
+};
 
 interface Props {
-  searchList: Frontmatter[];
+  searchList: SearchItem[];
 }
 
 interface SearchResult {
-  item: Frontmatter;
+  item: SearchItem;
   refIndex: number;
 }
 
@@ -24,9 +34,9 @@ export default function SearchBar({ searchList }: Props) {
   };
 
   const fuse = new Fuse(searchList, {
-    keys: ["title", "description", "format", "tags", "authors"],
+    keys: ["title", "description", "tags", "authors"],
     includeMatches: true,
-    minMatchCharLength: 1,
+    minMatchCharLength: 2,
     threshold: 0.5,
   });
 
@@ -43,6 +53,24 @@ export default function SearchBar({ searchList }: Props) {
         searchStr?.length || 0;
     }, 50);
   }, []);
+
+  useEffect(() => {
+    // Add search result only if
+    // input value is more than one character
+    let inputResult = inputVal.length > 1 ? fuse.search(inputVal) : [];
+    setSearchResults(inputResult);
+
+    // Update search string in URL
+    if (inputVal.length > 0) {
+      const searchParams = new URLSearchParams(window.location.search);
+      searchParams.set("q", inputVal);
+      const newRelativePathQuery =
+        window.location.pathname + "?" + searchParams.toString();
+      history.pushState(null, "", newRelativePathQuery);
+    } else {
+      history.pushState(null, "", window.location.pathname);
+    }
+  }, [inputVal]);
 
   useEffect(() => {
     // Add search result only if
@@ -83,7 +111,7 @@ export default function SearchBar({ searchList }: Props) {
       {inputVal.length == 0 ? (
         <div className="flex flex-col space-y-10">
           {searchList.map((item) => (
-            <Card frontmatter={item} />
+                <Card frontmatter={item.data} href={`/${item.data.format}/${slugify(item.data)}`} />
           ))}
         </div>
       ) : (
@@ -98,7 +126,7 @@ export default function SearchBar({ searchList }: Props) {
           <div className="flex flex-col space-y-10">
             {searchResults &&
               searchResults.map(({ item, refIndex }) => (
-                <Card frontmatter={item} />
+                <Card frontmatter={item.data} href={`/${item.data.format}/${slugify(item.data)}`} />
               ))}
           </div>
         </>

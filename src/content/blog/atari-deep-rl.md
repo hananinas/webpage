@@ -1,12 +1,9 @@
 ---
-layout: ../../layouts/BlogLayout.astro
-slug: atari-deep-rl
+postslug: atari-deep-rl
 title: Playing Atari games with Deep RL 🕹️
-description:
 authors:
   - Marcel Rosier
   - Ludek Cizinsky
-format: paper
 tags:
   - reinforcement-learning
   - games

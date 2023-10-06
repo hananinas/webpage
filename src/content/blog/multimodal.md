@@ -1,12 +1,9 @@
 ---
-layout: ../../layouts/BlogLayout.astro
-slug: multimodal
+postslug: multimodal
 title: LLM with Eyes 👀️
-description:
 authors:
   - Lukas Rasocha
   - Mika Senghaas
-format: paper
 tags:
   - multimodality
   - transformer

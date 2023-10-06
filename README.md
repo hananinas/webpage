@@ -174,7 +174,7 @@ know the precise types of all the fields._
 ```md
 ---
 layout: ../../layouts/BlogLayout.astro
-slug: intro-post
+postslug: intro-post
 title: AITU's First Meeting! 🎉
 description: 
   We are official! AITU is officially registered as a student organisation at

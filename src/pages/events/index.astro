@@ -1,0 +1,36 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Search from "../../components/Search";
+import {getCollection } from "astro:content";
+
+
+// Retrieve all articles
+const posts = await getCollection("event", ({ data }) => !data.draft);
+
+// List of items to search in
+const searchList = posts.map(({ data }) => ({
+  title: data.title,
+  description: data.description,
+  tags: data.tags,
+  authors: data.authors,
+  data,
+}));
+
+---
+
+<Layout title="Events | AITU" description="AITU Blog">
+  <main>
+    <div class="mt-10">
+      <a href="/" class="text-sm text-accent">Back</a>
+      <h1 class="my-6 text-3xl font-medium sm:text-4xl">Event</h1>
+      <p class="text-lg font-light text-secondary md:w-3/4">
+        The AITU hosts a lot of events for its members. Look trough some of the recent ones below.
+      </p>
+      <p class="text-lg font-light text-secondary md:w-3/4 italic">
+        You can dynamically filter by format, title, author and tags by typing
+        in the below text box
+      </p>
+    </div>
+    <Search  client:load searchList={searchList}  />
+  </main>
+</Layout>
