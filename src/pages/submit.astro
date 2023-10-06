@@ -1,0 +1,15 @@
+---
+import { NewPaperForm } from "@components/PaperForm";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Login admin" description="Login to add new members as admin">
+  <h2
+    class="mt-2 text-2xl font-light leading-snug text-secondary md:text-3xl md:w-1/2"
+  >
+    Submit a new paper
+  </h2>
+  <div class="flex items-center justify-center">
+    <NewPaperForm client:load />
+  </div>
+</Layout>
