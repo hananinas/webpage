@@ -2,7 +2,7 @@ import { supabase } from "@supabase";
 import { type Session } from "@supabase/supabase-js";
 import React from "react";
 import { useState, useEffect } from "react";
-import { AiFillGithub, AiOutlineGithub, AiOutlineGoogle } from "react-icons/ai";
+import { AiOutlineGoogle } from "react-icons/ai";
 
 // source https://supabase.com/docs/guides/
 // Define the state type for the form data
@@ -130,15 +130,13 @@ export const SignInForm: React.FC = () => {
           className="flex flex-row justify-center items-center mt-6 w-full bg-gray-200 text-gray-700 p-2 rounded hover:bg-gray-300 transition duration-300"
           onClick={signInWithGithub}
         >
-          Sign in with
-          <AiOutlineGithub size={40} />
+          Sign in with Github
         </button>
         <button
           className="flex flex-row justify-center items-center mt-6 w-full bg-gray-200 text-gray-700 p-2 rounded hover:bg-gray-300 transition duration-300"
           onClick={signOut}
         >
-          Sign in with
-          <AiOutlineGoogle size={40} />
+          Sign in with Google
         </button>
         {showError && (
           <div className="bg-red-200 p-3 mb-3 rounded-md text-red-800 mt-6">
