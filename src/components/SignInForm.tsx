@@ -2,7 +2,7 @@ import { supabase } from "@supabase";
 import { type Session } from "@supabase/supabase-js";
 import React from "react";
 import { useState, useEffect } from "react";
-import { AiFillGithub, AiOutlineGoogle } from "react-icons/ai";
+import { AiFillGithub, AiOutlineGithub, AiOutlineGoogle } from "react-icons/ai";
 
 // source https://supabase.com/docs/guides/
 // Define the state type for the form data
@@ -131,7 +131,7 @@ export const SignInForm: React.FC = () => {
           onClick={signInWithGithub}
         >
           Sign in with
-          <AiFillGithub size={40} />
+          <AiOutlineGithub size={40} />
         </button>
         <button
           className="flex flex-row justify-center items-center mt-6 w-full bg-gray-200 text-gray-700 p-2 rounded hover:bg-gray-300 transition duration-300"
