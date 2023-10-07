@@ -1,6 +1,6 @@
 import { supabase } from "@supabase";
-import { type Session } from "@supabase/supabase-js";
-import React from "react";
+import { type Session, type User } from "@supabase/supabase-js";
+import React, { type SetStateAction } from "react";
 import { useState, useEffect } from "react";
 import { AiOutlineGoogle } from "react-icons/ai";
 
@@ -22,10 +22,15 @@ export const SignInForm: React.FC = () => {
   const [formData, setFormData] = useState<FormState>(initialFormState);
   const [showError, setShowError] = useState(false);
   const [errorMessage, seterrorMessage] = useState("");
+  // for outh
+  const [user, setUser] = useState<SetStateAction<null | User>>(null);
 
   useEffect(() => {
-    getSession();
-  });
+    getUser();
+    window.addEventListener("hashchange", function () {
+      getUser();
+    });
+  }, []);
 
   //get session for current user
   async function getSession() {
@@ -33,10 +38,20 @@ export const SignInForm: React.FC = () => {
     setSession(data.session);
   }
 
+  //get user for current session
+  async function getUser() {
+    await supabase.auth.getUser().then((value) => {
+      if (value.data?.user) {
+        setUser(value.data.user);
+        console.log(value.data.user);
+      }
+    });
+  }
+
   //sign out current user
   async function signOut() {
     const { error } = await supabase.auth.signOut();
-    setSession(null);
+    setUser(null);
   }
 
   //sign in with github
@@ -57,7 +72,7 @@ export const SignInForm: React.FC = () => {
       email: formData.email || "",
       password: formData.password || "",
     });
-    setSession(data.session);
+    setUser(data.user);
 
     if (error) {
       seterrorMessage(error.message);
@@ -85,7 +100,7 @@ export const SignInForm: React.FC = () => {
     console.log(formData);
   };
 
-  return !session ? (
+  return !user ? (
     <div className="bg-gray-600 p-8 rounded-lg shadow-lg w-96">
       <h2 className="text-2xl font-semibold mb-4">Sign in</h2>
       <form>
@@ -100,7 +115,6 @@ export const SignInForm: React.FC = () => {
             value={formData.email || ""}
             className="w-full p-2 border border-black text-black rounded"
             onChange={handleInputChange}
-            required
           />
         </div>
         <div className="mb-4">
@@ -117,7 +131,6 @@ export const SignInForm: React.FC = () => {
             value={formData.password || ""}
             className="w-full p-2 border text-black rounded"
             onChange={handleInputChange}
-            required
           />
         </div>
         <button
@@ -126,12 +139,7 @@ export const SignInForm: React.FC = () => {
         >
           Sign In
         </button>
-        <button
-          className="flex flex-row justify-center items-center mt-6 w-full bg-gray-200 text-gray-700 p-2 rounded hover:bg-gray-300 transition duration-300"
-          onClick={signInWithGithub}
-        >
-          Sign in with Github
-        </button>
+
         <button
           className="flex flex-row justify-center items-center mt-6 w-full bg-gray-200 text-gray-700 p-2 rounded hover:bg-gray-300 transition duration-300"
           onClick={signOut}
@@ -144,18 +152,24 @@ export const SignInForm: React.FC = () => {
           </div>
         )}
       </form>
+      <button
+        className="flex flex-row justify-center items-center mt-6 w-full bg-gray-200 text-gray-700 p-2 rounded hover:bg-gray-300 transition duration-300"
+        onClick={signInWithGithub}
+      >
+        Sign in with Github
+      </button>
     </div>
   ) : (
     <div className="bg-gray-600 p-8 rounded-lg shadow-lg w-96">
       <p className="text-gray-100">You're signed in.</p>
       <div className="mt-4">
-        <p className="text-gray-600">or</p>
         <button
           className="mt-2 w-full bg-gray-200 text-gray-700 p-2 rounded hover:bg-gray-300 transition duration-300"
           onClick={signOut}
         >
           Sign out
         </button>
+        <p className="text-gray-600">or</p>
       </div>
     </div>
   );
