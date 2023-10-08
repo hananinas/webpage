@@ -1,8 +1,20 @@
 ---
 import Badge from "@components/Badge";
+import { supabase } from "@supabase";
+import { LoginLink } from "./login/link";
 const anchorLinks: string[] = ["activities", "paper-archive", "events"];
 
 const { headerTitle } = Astro.props;
+
+var user;
+
+async function getUser() {
+  await supabase.auth.getUser().then((value) => {
+    if (value.data?.user) {
+      user = value.data.user;
+    }
+  });
+}
 ---
 
 <div
@@ -58,7 +70,7 @@ const { headerTitle } = Astro.props;
         <a href="/join" class="nounderline">Join</a>
       </Badge>
       <Badge id="loginLink" hover>
-        <a href="/login" class="nounderline">login</a>
+        <LoginLink client:load />
       </Badge>
     </div>
   </div>

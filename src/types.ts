@@ -14,26 +14,26 @@ export interface Database {
           abstract: string | null
           author: string | null
           id: number
+          image_src: string | null
           title: string | null
-          votes: number | null
         }
         Insert: {
           abstract?: string | null
           author?: string | null
           id?: never
+          image_src?: string | null
           title?: string | null
-          votes?: number | null
         }
         Update: {
           abstract?: string | null
           author?: string | null
           id?: never
+          image_src?: string | null
           title?: string | null
-          votes?: number | null
         }
         Relationships: []
       }
-      users: {
+      supabase_auth_users: {
         Row: {
           email: string | null
           id: number
@@ -80,7 +80,7 @@ export interface Database {
           {
             foreignKeyName: "votes_user_id_fkey"
             columns: ["user_id"]
-            referencedRelation: "users"
+            referencedRelation: "supabase_auth_users"
             referencedColumns: ["id"]
           }
         ]
