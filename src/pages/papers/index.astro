@@ -1,0 +1,33 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { supabase } from "../../supabase";
+import Papers from "../../components/papers/Papers";
+import { type PaperItem } from "../../components/papers/Papers";
+// Retrieve all articles
+const papers = await supabase.from("papers").select("*");
+
+// List of items to search in
+const paperList = papers.data?.map(
+  (paper) =>
+    ({
+      title: paper.title,
+      abstract: paper.abstract,
+      author: paper.author,
+      id: paper.id,
+      image_src: paper.image_src,
+    } as PaperItem)
+);
+---
+
+<Layout title="Events | AITU" description="AITU Blog">
+  <main>
+    <div class="mt-10">
+      <a href="/account" class="text-sm text-accent">Back</a>
+      <h1 class="my-6 text-3xl font-medium sm:text-4xl">Papers</h1>
+      <p class="text-lg font-light text-secondary md:w-3/4">
+        Papers sugested by AITU members.
+      </p>
+    </div>
+  </main>
+  <Papers client:load paperList={paperList} />
+</Layout>

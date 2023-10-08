@@ -1,7 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Search from "../../components/Search";
-import {getCollection } from "astro:content";
+import { getCollection } from "astro:content";
 import Members from "../../components/Members";
 // Retrieve all articles
 const posts = await getCollection("member", ({ data }) => !data.draft);
@@ -13,7 +13,6 @@ const membersList = posts.map(({ data }) => ({
   since: data.since,
   data,
 }));
-
 ---
 
 <Layout title="Events | AITU" description="AITU Blog">
@@ -26,5 +25,5 @@ const membersList = posts.map(({ data }) => ({
       </p>
     </div>
   </main>
-  <Members client:load memberList={membersList}/>
+  <Members client:load memberList={membersList} />
 </Layout>
