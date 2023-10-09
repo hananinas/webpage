@@ -13,61 +13,49 @@ export interface Database {
         Row: {
           abstract: string | null
           author: string | null
+          category: string | null
           id: number
           image_src: string | null
+          link: string | null
           title: string | null
+          type: string | null
         }
         Insert: {
           abstract?: string | null
           author?: string | null
+          category?: string | null
           id?: never
           image_src?: string | null
+          link?: string | null
           title?: string | null
+          type?: string | null
         }
         Update: {
           abstract?: string | null
           author?: string | null
+          category?: string | null
           id?: never
           image_src?: string | null
+          link?: string | null
           title?: string | null
-        }
-        Relationships: []
-      }
-      supabase_auth_users: {
-        Row: {
-          email: string | null
-          id: number
-          name: string | null
-        }
-        Insert: {
-          email?: string | null
-          id?: never
-          name?: string | null
-        }
-        Update: {
-          email?: string | null
-          id?: never
-          name?: string | null
+          type?: string | null
         }
         Relationships: []
       }
       votes: {
         Row: {
-          id: number
-          paper_id: number | null
-          user_id: number | null
+          paper_id: number
+          user_id: string
           vote: number | null
         }
         Insert: {
-          id?: never
-          paper_id?: number | null
-          user_id?: number | null
+          paper_id: number
+          user_id: string
           vote?: number | null
         }
         Update: {
-          id?: never
-          paper_id?: number | null
-          user_id?: number | null
+          paper_id?: number
+          user_id?: string
           vote?: number | null
         }
         Relationships: [
@@ -80,7 +68,7 @@ export interface Database {
           {
             foreignKeyName: "votes_user_id_fkey"
             columns: ["user_id"]
-            referencedRelation: "supabase_auth_users"
+            referencedRelation: "users"
             referencedColumns: ["id"]
           }
         ]

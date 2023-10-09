@@ -3,7 +3,8 @@ import Layout from "../../layouts/Layout.astro";
 import { supabase } from "../../supabase";
 import Papers from "../../components/papers/Papers";
 import { type PaperItem } from "../../components/papers/Papers";
-// Retrieve all articles
+
+// Retrieve all papers
 const papers = await supabase.from("papers").select("*");
 
 // List of items to search in
@@ -15,6 +16,7 @@ const paperList = papers.data?.map(
       author: paper.author,
       id: paper.id,
       image_src: paper.image_src,
+      category: paper.category,
     } as PaperItem)
 );
 ---
