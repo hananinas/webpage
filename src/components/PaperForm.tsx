@@ -6,7 +6,10 @@ interface FormState {
   title: string | null;
   author: string | null;
   abstract: string | null;
-  votes: number | null;
+  link: string | null;
+  image_src: string | null;
+  category: string | null;
+  type: string | null;
 }
 
 export const NewPaperForm: React.FC = () => {
@@ -15,7 +18,10 @@ export const NewPaperForm: React.FC = () => {
     title: null,
     author: null,
     abstract: null,
-    votes: null,
+    image_src: null,
+    link: null,
+    category: null,
+    type: "new",
   };
 
   // Create state to hold the form data
@@ -23,6 +29,13 @@ export const NewPaperForm: React.FC = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
   const [errorMessage, seterrorMessage] = useState("");
+  const categories = [
+    "Generative",
+    "Optimization",
+    "Computer vision",
+    "Classic",
+    "Reinforcement learning",
+  ];
 
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
@@ -37,6 +50,10 @@ export const NewPaperForm: React.FC = () => {
           title: formData.title,
           abstract: formData.abstract,
           author: formData.author,
+          image_src: formData.image_src,
+          link: formData.link,
+          category: formData.category,
+          type: formData.type,
         },
       ]);
 
@@ -63,7 +80,9 @@ export const NewPaperForm: React.FC = () => {
 
   // Handle input changes
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
 
@@ -104,7 +123,31 @@ export const NewPaperForm: React.FC = () => {
         />
       </div>
       <div className="relative mb-6">
-        <label htmlFor="abstract">Abstract:</label>
+        <label htmlFor="author">Link to paper:</label>
+        <input
+          type="text"
+          id="link"
+          name="link"
+          value={formData.link || ""}
+          className="peer block min-h-[auto] w-full rounded border-2 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+          onChange={handleInputChange}
+          required
+        />
+      </div>
+      <div className="relative mb-6">
+        <label htmlFor="author">Image url:</label>
+        <input
+          type="text"
+          id="image_src"
+          name="image_src"
+          value={formData.image_src || ""}
+          className="peer block min-h-[auto] w-full rounded border-2 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+          onChange={handleInputChange}
+          required
+        />
+      </div>
+      <div className="relative mb-6">
+        <label htmlFor="abstract">abstract</label>
         <textarea
           id="abstract"
           name="abstract"
@@ -114,6 +157,27 @@ export const NewPaperForm: React.FC = () => {
           required
         />
       </div>
+      <div className="relative mb-6">
+        <label htmlFor="category">Category:</label>
+        <select
+          id="category"
+          name="category"
+          value={formData.category || ""}
+          onChange={handleInputChange}
+          required
+          className="peer block min-h-[auto] w-full rounded border-2 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+        >
+          <option value="" disabled>
+            Select a category
+          </option>
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <button
         type="submit"
         className="inline-block w-full rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]"

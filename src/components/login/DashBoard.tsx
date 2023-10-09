@@ -4,13 +4,16 @@ import react, { type SetStateAction, useEffect, useState } from "react";
 
 interface UserState {
   email: string | undefined;
+  id: string;
 }
 
 const papaperHistory = await supabase.from("papers").select("*");
+const curPapers = await supabase.from("papers").select("*").eq("type", "new");
 
 export const DashBoard: React.FC = () => {
   const initialUserInfo: UserState = {
     email: undefined,
+    id: "",
   };
 
   const [user, setUser] = useState<SetStateAction<User | null>>(null);
@@ -25,11 +28,23 @@ export const DashBoard: React.FC = () => {
     });
   }, []);
 
+  const [votes, setVotes] = useState<
+    { paper_id: number | null; vote: number | null; user_id: string }[]
+  >([]);
+
+  useEffect(() => {
+    fetchVotes();
+
+    window.addEventListener("votechange", function () {
+      fetchVotes();
+    });
+  }, []);
+
   async function getUser() {
     await supabase.auth.getUser().then((value) => {
       if (value.data?.user) {
         setUser(value.data.user);
-        setUserData({ email: value.data.user.email });
+        setUserData({ email: value.data.user.email, id: value.data.user.id });
         if (value.data === null) {
           setShowSignInMessage(true); // Set loading to false when data is fetched
         } else {
@@ -38,6 +53,42 @@ export const DashBoard: React.FC = () => {
         console.log(value.data.user);
       }
     });
+  }
+
+  async function fetchVotes() {
+    try {
+      const { data, error } = await supabase
+        .from("votes")
+        .select("paper_id, vote, user_id");
+      if (error) {
+        throw error;
+      }
+      // Assuming data is an array of vote objects
+      setVotes(data);
+    } catch (error) {
+      console.error("Error fetching votes:", error);
+    }
+  }
+  // vote new paper
+  async function voteNew(paperID: number) {
+    try {
+      // Insert a vote record into the "votes" table
+      const { data, error } = await supabase
+        .from("votes")
+        .upsert([{ paper_id: paperID, vote: 1, user_id: userData.id }]);
+
+      if (error) {
+        // Handle any errors here
+        console.error("Error voting:", error);
+      } else {
+        // Handle successful vote
+        console.log("Vote successful:", data);
+        // You can update the UI or perform any other actions here
+        fetchVotes();
+      }
+    } catch (error) {
+      console.error("Error voting:", error);
+    }
   }
 
   // Sign out current user
@@ -92,7 +143,7 @@ export const DashBoard: React.FC = () => {
                       <th className="border border-black-400 px-4 py-2">
                         Title
                       </th>
-                      <th className="border border-black-400 px-4 py-2">
+                      <th className="border border-black-400 px-4 py-2 ">
                         Abstract
                       </th>
                     </tr>
@@ -115,15 +166,65 @@ export const DashBoard: React.FC = () => {
                 <p>view all</p>
               </a>
             </dl>
-            <dl className="divide-y divide-gray-100 mt-6">
-              <h1>Current Paper</h1>
-              <div className="px-4 py-6 w-[300px] sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 sm:w-auto"></div>
+            <dl className="divide-y divide-gray-100">
+              <h1>Current papers</h1>
+              <div className="px-4 py-6 w-[300px] sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 sm:w-auto ">
+                <table className="border-collapse border border-gray-400 sm:w-[900px]">
+                  <thead>
+                    <tr className="bg-black-200">
+                      <th className="border border-black-400 px-4 py-2">
+                        Title
+                      </th>
+                      <th className="border border-black-400 px-4 py-2">
+                        Abstract
+                      </th>
+                      <th className="border border-black-400 px-4 py-2">
+                        votes
+                      </th>
+                      <th className="border border-black-400 px-4 py-2">
+                        vote below
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {curPapers.data?.map((paper, index) => (
+                      <tr key={index}>
+                        <td className="border border-purple-400 px-4 py-2">
+                          {paper.title}
+                        </td>
+                        <td className="border border-purple-400 px-4 py-2">
+                          {paper.abstract}
+                        </td>
+                        <td className="border border-purple-400 px-4 py-2">
+                          {
+                            votes.filter((vote) => vote.paper_id === paper.id)
+                              .length
+                          }
+                        </td>
+                        <td className="w-[100px]">
+                          <button
+                            className="border-white border-2 text-[16px] w-[150px] h-[40px]"
+                            onClick={() => voteNew(paper.id)}
+                          >
+                            vote
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <a href="/papers">
+                <p>view all</p>
+              </a>
             </dl>
-            <a href="/submit">
-              <button className="border-white border-2  text-[16px] w-[300px] h-[40px]">
-                Submit a new paper
-              </button>
-            </a>
+            <dl className="divide-y divide-gray-100">
+              <a href="/submit">
+                <button className="border-white border-2  text-[16px] w-[300px] h-[40px]">
+                  Submit a new paper
+                </button>
+              </a>
+            </dl>
           </div>
         </>
       )}

@@ -74,7 +74,10 @@ export const SignInForm: React.FC = () => {
     });
     setUser(data.user);
 
-    window.location.href = "/account";
+    if (user) {
+      window.location.href = "/account";
+    }
+
     if (error) {
       seterrorMessage(error.message);
       setShowError(true);
