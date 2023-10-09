@@ -1,42 +1,61 @@
 import { supabase } from "@supabase";
-import React, { useState } from "react";
+import type { User } from "@supabase/supabase-js";
+import React, { useState, type SetStateAction, useEffect } from "react";
 
 // Define the state type for the form data
 interface FormState {
-  email: string;
+  password: string;
 }
 
-export const ResetPasswordForm: React.FC = () => {
+export const UpdatePasswordForm: React.FC = () => {
   const initialFormState: FormState = {
-    email: "",
+    password: "",
   };
 
   const [formData, setFormData] = useState<FormState>(initialFormState);
   const [showMessage, setShowMessage] = useState(false);
   const [message, setMessage] = useState("");
+  const [user, setUser] = useState<SetStateAction<null | User>>(null);
+
+  useEffect(() => {
+    getUser();
+    window.addEventListener("hashchange", function () {
+      getUser();
+    });
+  }, []);
+
+  //get user for current session
+  async function getUser() {
+    await supabase.auth.getUser().then((value) => {
+      if (value.data?.user) {
+        setUser(value.data.user);
+      } else {
+        window.location.href = "/login";
+      }
+    });
+  }
 
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent the default form submission
 
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(
-        formData.email,
-        {
-          redirectTo: "http://localhost:4321/account/update-password",
-        }
-      );
+      const { error } = await supabase.auth.updateUser({
+        password: formData.password,
+      });
 
       if (error) {
         throw error;
+      } else {
+        window.location.href = "/account";
       }
 
       // Display a success message
-      setMessage("Password reset instructions sent to your email.");
+      setMessage("Password changed");
       setShowMessage(true);
     } catch (error) {
-      // Handle any errors that occur during the password reset request
-      setMessage("An error occurred. Please check your email and try again.");
+      // Handle any errors
+      setMessage("Password should not be old password try again");
       setShowMessage(true);
       console.error(error);
     }
@@ -65,14 +84,17 @@ export const ResetPasswordForm: React.FC = () => {
       )}
       <form>
         <div>
-          <label htmlFor="email" className="block text-white font-medium mb-2">
-            Email
+          <label
+            htmlFor="password"
+            className="block text-white font-medium mb-2"
+          >
+            password
           </label>
           <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
+            type="password"
+            id="password"
+            name="password"
+            value={formData.password}
             className="w-full p-2 border border-black text-black rounded"
             onChange={handleInputChange}
           />
@@ -82,7 +104,7 @@ export const ResetPasswordForm: React.FC = () => {
             className="w-full bg-purple-500 text-white p-2 rounded hover:bg-purple-600 transition duration-300"
             onClick={handleSubmit}
           >
-            Reset Password
+            Change Password
           </button>
         </div>
       </form>

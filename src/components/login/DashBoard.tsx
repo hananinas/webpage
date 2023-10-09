@@ -48,7 +48,7 @@ export const DashBoard: React.FC = () => {
         console.log(value.data.user);
       } else {
         // Redirect the user to the login page
-        window.location.href = "/login";
+        window.location.href = "/account/login";
       }
     });
   }
@@ -128,6 +128,11 @@ export const DashBoard: React.FC = () => {
                 >
                   Log out
                 </button>
+                <a href="/account/update-password">
+                  <button className="border-white border-2  text-[16px] w-[300px] h-[40px]">
+                    change password
+                  </button>
+                </a>
               </div>
             </dl>
             <dl className="divide-y divide-gray-100">

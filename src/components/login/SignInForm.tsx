@@ -135,7 +135,7 @@ export const SignInForm: React.FC = () => {
         >
           Sign In
         </button>
-        <a href="/reset">
+        <a href="/account/reset">
           <p className=" text-purple-300  hover:text-purple-600">
             forgot your password ?
           </p>
