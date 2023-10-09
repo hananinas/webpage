@@ -1,0 +1,25 @@
+---
+import { type PaperItem } from "../../components/papers/Papers";
+import PaperLayout from "../../layouts/PaperLayout.astro";
+import { supabase } from "../../supabase";
+import slugifyPaper from "../../utils/slugifyPaper";
+
+export interface Props {
+  paper: PaperItem;
+}
+
+export async function getStaticPaths() {
+  const papers = (await supabase.from("papers").select("*")).data as [];
+
+  const postResult = papers.map((paper) => ({
+    params: { slug: slugifyPaper(paper) },
+    props: { paper: paper },
+  }));
+
+  return [...postResult];
+}
+const { slug } = Astro.params;
+const { paper } = Astro.props;
+---
+
+<PaperLayout paper={paper} />

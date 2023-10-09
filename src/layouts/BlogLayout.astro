@@ -10,8 +10,7 @@ export interface Props {
 }
 const { post } = Astro.props;
 
-const { Content,remarkPluginFrontmatter } = await post.render();
-
+const { Content, remarkPluginFrontmatter } = await post.render();
 ---
 
 <Layout

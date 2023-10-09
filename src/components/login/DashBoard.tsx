@@ -1,7 +1,7 @@
 import { type User } from "@supabase/supabase-js";
 import { supabase } from "@supabase";
 import react, { type SetStateAction, useEffect, useState } from "react";
-
+import PacmanLoader from "react-spinners/PacmanLoader";
 interface UserState {
   email: string | undefined;
   id: string;
@@ -45,12 +45,11 @@ export const DashBoard: React.FC = () => {
       if (value.data?.user) {
         setUser(value.data.user);
         setUserData({ email: value.data.user.email, id: value.data.user.id });
-        if (value.data === null) {
-          setShowSignInMessage(true); // Set loading to false when data is fetched
-        } else {
-          setLoading(false);
-        }
+        setLoading(false);
         console.log(value.data.user);
+      } else {
+        // Redirect the user to the login page
+        window.location.href = "/login";
       }
     });
   }
@@ -104,7 +103,7 @@ export const DashBoard: React.FC = () => {
         // Show a loading spinner while fetching data
         <div className="text-center mt-4">
           <div className="spinner-border text-white" role="status">
-            <span className="sr-only">Loading...</span>
+            <PacmanLoader size={100} color="#36d7b7" />
           </div>
         </div>
       ) : (
@@ -227,20 +226,6 @@ export const DashBoard: React.FC = () => {
             </dl>
           </div>
         </>
-      )}
-
-      {showSignInMessage && (
-        <div className="bg-gray-600 p-8 rounded-lg shadow-lg w-96 mt-4">
-          <p className="text-gray-100">You're not logged in </p>
-          <div className="mt-4">
-            <a href="/login">
-              <button className="mt-2 w-full bg-gray-200 text-gray-700 p-2 rounded hover:bg-gray-300 transition duration-300">
-                Sign in
-              </button>
-            </a>
-            <p className="text-gray-600">or</p>
-          </div>
-        </div>
       )}
     </div>
   );

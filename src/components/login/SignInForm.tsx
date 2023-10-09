@@ -32,18 +32,12 @@ export const SignInForm: React.FC = () => {
     });
   }, []);
 
-  //get session for current user
-  async function getSession() {
-    const { data, error } = await supabase.auth.getSession();
-    setSession(data.session);
-  }
-
   //get user for current session
   async function getUser() {
     await supabase.auth.getUser().then((value) => {
       if (value.data?.user) {
         setUser(value.data.user);
-        console.log(value.data.user);
+        window.location.href = "/account";
       }
     });
   }
@@ -74,10 +68,6 @@ export const SignInForm: React.FC = () => {
     });
     setUser(data.user);
 
-    if (user) {
-      window.location.href = "/account";
-    }
-
     if (error) {
       seterrorMessage(error.message);
       setShowError(true);
@@ -86,6 +76,8 @@ export const SignInForm: React.FC = () => {
         setShowError(false);
       }, 5000);
       console.error(error);
+    } else {
+      window.location.href = "/account";
     }
   };
 
@@ -138,12 +130,16 @@ export const SignInForm: React.FC = () => {
           />
         </div>
         <button
-          className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300"
+          className="w-full bg-purple-500 text-white p-2 rounded hover:bg-purple-600 transition duration-300"
           onClick={handleSubmit}
         >
           Sign In
         </button>
-
+        <a href="/reset">
+          <p className=" text-purple-300  hover:text-purple-600">
+            forgot your password ?
+          </p>
+        </a>
         <button
           className="flex flex-row justify-center items-center mt-6 w-full bg-gray-200 text-gray-700 p-2 rounded hover:bg-gray-300 transition duration-300"
           onClick={signOut}
@@ -156,10 +152,7 @@ export const SignInForm: React.FC = () => {
           </div>
         )}
       </form>
-      <button
-        className="flex flex-row justify-center items-center mt-6 w-full bg-gray-200 text-gray-700 p-2 rounded hover:bg-gray-300 transition duration-300"
-        onClick={signInWithGithub}
-      >
+      <button className="flex flex-row justify-center items-center mt-6 w-full bg-gray-200 text-gray-700 p-2 rounded hover:bg-gray-300 transition duration-300">
         Sign in with Github
       </button>
     </div>

@@ -13,30 +13,30 @@ export interface Database {
         Row: {
           abstract: string | null
           author: string | null
-          Category: string | null
+          category: string | null
           id: number
           image_src: string | null
-          Link: string | null
+          link: string | null
           title: string | null
           type: string | null
         }
         Insert: {
           abstract?: string | null
           author?: string | null
-          Category?: string | null
+          category?: string | null
           id?: never
           image_src?: string | null
-          Link?: string | null
+          link?: string | null
           title?: string | null
           type?: string | null
         }
         Update: {
           abstract?: string | null
           author?: string | null
-          Category?: string | null
+          category?: string | null
           id?: never
           image_src?: string | null
-          Link?: string | null
+          link?: string | null
           title?: string | null
           type?: string | null
         }
@@ -44,17 +44,17 @@ export interface Database {
       }
       votes: {
         Row: {
-          paper_id: number | null
+          paper_id: number
           user_id: string
           vote: number | null
         }
         Insert: {
-          paper_id?: number | null
+          paper_id: number
           user_id: string
           vote?: number | null
         }
         Update: {
-          paper_id?: number | null
+          paper_id?: number
           user_id?: string
           vote?: number | null
         }
