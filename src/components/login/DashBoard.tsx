@@ -1,7 +1,6 @@
 import { type User } from "@supabase/supabase-js";
 import { supabase } from "@supabase";
 import react, { type SetStateAction, useEffect, useState } from "react";
-import PacmanLoader from "react-spinners/PacmanLoader";
 interface UserState {
   email: string | undefined;
   id: string;
@@ -102,9 +101,7 @@ export const DashBoard: React.FC = () => {
       {loading ? (
         // Show a loading spinner while fetching data
         <div className="text-center mt-4">
-          <div className="spinner-border text-white" role="status">
-            <PacmanLoader size={100} color="#36d7b7" />
-          </div>
+          <div className="spinner-border text-white" role="status"></div>
         </div>
       ) : (
         <>

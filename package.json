@@ -23,7 +23,6 @@
     "@vercel/analytics": "^0.1.11",
     "astro": "^3.0.8",
     "astro-icon": "^0.8.1",
-    "chart.js": "^4.4.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "fuse.js": "^6.6.2",
@@ -31,10 +30,8 @@
     "lucide-react": "^0.274.0",
     "mdast-util-to-string": "^3.2.0",
     "react": "^18.2.0",
-    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
-    "react-spinners": "^0.13.8",
     "reading-time": "^1.5.0",
     "string-width": "6.1.0",
     "tailwind-merge": "^1.14.0",
@@ -48,8 +45,7 @@
     "@types/three": "^0.148.1",
     "cz-conventional-changelog": "^3.3.0",
     "prettier": "^2.8.8",
-    "prettier-plugin-astro": "^0.7.2",
-    "supabase": "^1.100.1"
+    "prettier-plugin-astro": "^0.7.2"
   },
   "config": {
     "commitizen": {
