@@ -23,7 +23,8 @@ export const ResetPasswordForm: React.FC = () => {
       const { error } = await supabase.auth.resetPasswordForEmail(
         formData.email,
         {
-          redirectTo: "http://localhost:4321/account/update-password",
+          redirectTo:
+            "webpage-rfs3rxg0n-hananinas.vercel.app/account/update-password",
         }
       );
 
