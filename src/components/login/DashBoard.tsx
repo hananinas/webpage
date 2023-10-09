@@ -18,7 +18,6 @@ export const DashBoard: React.FC = () => {
   const [user, setUser] = useState<SetStateAction<User | null>>(null);
   const [userData, setUserData] = useState<UserState>(initialUserInfo);
   const [loading, setLoading] = useState(true); // Loading state
-  const [showSignInMessage, setShowSignInMessage] = useState(false);
 
   useEffect(() => {
     getUser();
