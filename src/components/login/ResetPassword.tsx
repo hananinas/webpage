@@ -24,7 +24,7 @@ export const ResetPasswordForm: React.FC = () => {
         formData.email,
         {
           redirectTo:
-            "webpage-rfs3rxg0n-hananinas.vercel.app/account/update-password",
+            "https://webpage-mywz8miv9-hananinas.vercel.app/account/update-password",
         }
       );
 
