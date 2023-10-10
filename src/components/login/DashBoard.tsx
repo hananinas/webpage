@@ -100,7 +100,12 @@ export const DashBoard: React.FC = () => {
       {loading ? (
         // Show a loading spinner while fetching data
         <div className="text-center mt-4">
-          <div className="spinner-border text-white" role="status"></div>
+          <div className="spinner-border text-white" role="status">
+            <img
+              src="https://media3.giphy.com/media/3S59TcvgxZK8kA45mu/giphy.gif?cid=ecf05e47rvx204hehcdqomolwsj3qps4i5qsmvn6hjrz4rq2&ep=v1_gifs_search&rid=giphy.gif&ct=g"
+              width={500}
+            />
+          </div>
         </div>
       ) : (
         <>
@@ -113,118 +118,74 @@ export const DashBoard: React.FC = () => {
             </p>
           </div>
           <div className="mt-6 border-t border-gray-100">
-            <dl className="divide-y divide-gray-100">
-              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt className="text-sm font-medium leading-6 text-white-900">
-                  Username
-                </dt>
-                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                  {userData.email}
-                </dd>
-                <button
-                  className="border-white border-2  text-[16px] w-[300px] h-[40px]"
-                  onClick={signOut}
-                >
-                  Log out
+            <div className="px-4 py-6">
+              <h1>Username</h1>
+              <p className="text-white-900">{userData.email}</p>
+              <button
+                className="border-white border-2 text-[16px] w-full h-[40px] mt-2"
+                onClick={signOut}
+              >
+                Log out
+              </button>
+              <a href="/account/update-password">
+                <button className="border-white border-2 text-[16px] w-full h-[40px] mt-2">
+                  Change password
                 </button>
-                <a href="/account/update-password">
-                  <button className="border-white border-2  text-[16px] w-[300px] h-[40px]">
-                    change password
+              </a>
+            </div>
+          </div>
+          <div className="mt-6 border-t border-gray-100">
+            <h1>Paper history</h1>
+            {papaperHistory.data?.map((paper, index) => (
+              <div key={index} className="px-4 py-6">
+                <h2 className="text-white-900">{paper.title}</h2>
+                <p className="text-gray-700">{paper.abstract}</p>
+                <a href={paper.link as string}>
+                  <button className="border-white border-2 text-[16px] w-32 h-[40px] mt-2">
+                    Go to paper
                   </button>
                 </a>
               </div>
-            </dl>
-            <dl className="divide-y divide-gray-100">
-              <h1>Paper history</h1>
-              <div className="px-4 py-6 w-[300px] sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 sm:w-auto">
-                <table className="border-collapse border border-gray-400">
-                  <thead>
-                    <tr className="bg-black-200">
-                      <th className="border border-black-400 px-4 py-2">
-                        Title
-                      </th>
-                      <th className="border border-black-400 px-4 py-2 ">
-                        Abstract
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {papaperHistory.data?.map((paper, index) => (
-                      <tr key={index}>
-                        <td className="border border-purple-400 px-4 py-2">
-                          {paper.title}
-                        </td>
-                        <td className="border border-purple-400 px-4 py-2">
-                          {paper.abstract}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+            ))}
+            <a href="/papers" className="px-4 py-2 block text-white-900">
+              View all
+            </a>
+          </div>
+          <div className="mt-6 border-t border-gray-100">
+            <h1>Current papers</h1>
+            {curPapers.data?.map((paper, index) => (
+              <div key={index} className="px-4 py-6">
+                <h2 className="text-white-900">{paper.title}</h2>
+                <p className="text-gray-700">{paper.abstract}</p>
+                <p className="text-purple-400">
+                  Votes:{" "}
+                  {votes.filter((vote) => vote.paper_id === paper.id).length}
+                </p>
+                <div className="flex flex-row space-x-2">
+                  <button
+                    className="border-white border-2 text-[16px] w-24 h-[40px] mt-2"
+                    onClick={() => voteNew(paper.id)}
+                  >
+                    Vote
+                  </button>
+                  <a href={paper.link as string}>
+                    <button className="border-white border-2 text-[16px] w-32 h-[40px] mt-2">
+                      Go to paper
+                    </button>
+                  </a>
+                </div>
               </div>
-              <a href="/papers">
-                <p>view all</p>
-              </a>
-            </dl>
-            <dl className="divide-y divide-gray-100">
-              <h1>Current papers</h1>
-              <div className="px-4 py-6 w-[300px] sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 sm:w-auto ">
-                <table className="border-collapse border border-gray-400 sm:w-[900px]">
-                  <thead>
-                    <tr className="bg-black-200">
-                      <th className="border border-black-400 px-4 py-2">
-                        Title
-                      </th>
-                      <th className="border border-black-400 px-4 py-2">
-                        Abstract
-                      </th>
-                      <th className="border border-black-400 px-4 py-2">
-                        votes
-                      </th>
-                      <th className="border border-black-400 px-4 py-2">
-                        vote below
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {curPapers.data?.map((paper, index) => (
-                      <tr key={index}>
-                        <td className="border border-purple-400 px-4 py-2">
-                          {paper.title}
-                        </td>
-                        <td className="border border-purple-400 px-4 py-2">
-                          {paper.abstract}
-                        </td>
-                        <td className="border border-purple-400 px-4 py-2">
-                          {
-                            votes.filter((vote) => vote.paper_id === paper.id)
-                              .length
-                          }
-                        </td>
-                        <td className="w-[100px]">
-                          <button
-                            className="border-white border-2 text-[16px] w-[150px] h-[40px]"
-                            onClick={() => voteNew(paper.id)}
-                          >
-                            vote
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <a href="/papers">
-                <p>view all</p>
-              </a>
-            </dl>
-            <dl className="divide-y divide-gray-100">
-              <a href="/submit">
-                <button className="border-white border-2  text-[16px] w-[300px] h-[40px]">
-                  Submit a new paper
-                </button>
-              </a>
-            </dl>
+            ))}
+            <a href="/papers" className="px-4 py-2 block text-white-900">
+              View all
+            </a>
+          </div>
+          <div className="mt-6 border-t border-gray-100">
+            <a href="/submit">
+              <button className="border-white border-2 text-[16px] w-full h-[40px]">
+                Submit a new paper
+              </button>
+            </a>
           </div>
         </>
       )}
