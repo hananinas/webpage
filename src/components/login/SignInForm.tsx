@@ -22,6 +22,7 @@ export const SignInForm: React.FC = () => {
   const [formData, setFormData] = useState<FormState>(initialFormState);
   const [showError, setShowError] = useState(false);
   const [errorMessage, seterrorMessage] = useState("");
+
   // for outh
   const [user, setUser] = useState<SetStateAction<null | User>>(null);
 
@@ -147,11 +148,18 @@ export const SignInForm: React.FC = () => {
         >
           Sign In
         </button>
-        <a href="/account/reset">
-          <p className=" text-purple-300  hover:text-purple-600">
-            forgot your password ?
-          </p>
-        </a>
+        <div className="flex flex-row space-x-12">
+          <a href="/account/reset">
+            <p className=" text-purple-300  hover:text-purple-600">
+              forgot your password ?
+            </p>
+          </a>
+          <a href="/account/signup">
+            <p className=" text-gray-300  hover:text-purple-600">
+              create account
+            </p>
+          </a>
+        </div>
       </form>
       <button
         className="flex flex-row justify-center items-center mt-6 w-full bg-gray-200 text-gray-700 p-2 rounded hover:bg-gray-300 transition duration-300"
