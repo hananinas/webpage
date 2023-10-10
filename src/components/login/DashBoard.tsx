@@ -88,6 +88,18 @@ export const DashBoard: React.FC = () => {
     }
   }
 
+  function getVoteCount(paperId: number) {
+    return votes.filter((vote) => vote.paper_id === paperId).length;
+  }
+
+  curPapers.data?.sort((a, b) => {
+    const voteCountA = getVoteCount(a.id);
+    const voteCountB = getVoteCount(b.id);
+
+    // Sort in descending order (most votes first)
+    return voteCountB - voteCountA;
+  });
+
   // Sign out current user
   async function signOut() {
     const { error } = await supabase.auth.signOut();
@@ -96,11 +108,11 @@ export const DashBoard: React.FC = () => {
   }
 
   return (
-    <div className="ml-3 sm:ml-16 mr-16 sm:mr-3 font-mono">
+    <div className="ml-3 sm:ml-16 mr-16 sm:mr-3 font-mono ">
       {loading ? (
         // Show a loading spinner while fetching data
-        <div className="text-center mt-4">
-          <div className="spinner-border text-white" role="status">
+        <div className="text-center mt-4 flex justify-center items-center ">
+          <div className="spinner-border text-white ml-14" role="status">
             <img
               src="https://media3.giphy.com/media/3S59TcvgxZK8kA45mu/giphy.gif?cid=ecf05e47rvx204hehcdqomolwsj3qps4i5qsmvn6hjrz4rq2&ep=v1_gifs_search&rid=giphy.gif&ct=g"
               width={500}
@@ -158,8 +170,7 @@ export const DashBoard: React.FC = () => {
                 <h2 className="text-white-900">{paper.title}</h2>
                 <p className="text-gray-700">{paper.abstract}</p>
                 <p className="text-purple-400">
-                  Votes:{" "}
-                  {votes.filter((vote) => vote.paper_id === paper.id).length}
+                  Votes:{getVoteCount(paper.id)}
                 </p>
                 <div className="flex flex-row space-x-2">
                   <button

@@ -55,6 +55,18 @@ export const SignInForm: React.FC = () => {
     });
   }
 
+  async function signInWithGoogle() {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        queryParams: {
+          access_type: "offline",
+          prompt: "consent",
+        },
+      },
+    });
+  }
+
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     // Make handleSubmit an async function
@@ -140,21 +152,24 @@ export const SignInForm: React.FC = () => {
             forgot your password ?
           </p>
         </a>
-        <button
-          className="flex flex-row justify-center items-center mt-6 w-full bg-gray-200 text-gray-700 p-2 rounded hover:bg-gray-300 transition duration-300"
-          onClick={signOut}
-        >
-          Sign in with Google
-        </button>
-        {showError && (
-          <div className="bg-red-200 p-3 mb-3 rounded-md text-red-800 mt-6">
-            {errorMessage}
-          </div>
-        )}
       </form>
-      <button className="flex flex-row justify-center items-center mt-6 w-full bg-gray-200 text-gray-700 p-2 rounded hover:bg-gray-300 transition duration-300">
+      <button
+        className="flex flex-row justify-center items-center mt-6 w-full bg-gray-200 text-gray-700 p-2 rounded hover:bg-gray-300 transition duration-300"
+        onClick={signInWithGithub}
+      >
         Sign in with Github
       </button>
+      <button
+        className="flex flex-row justify-center items-center mt-6 w-full bg-gray-200 text-gray-700 p-2 rounded hover:bg-gray-300 transition duration-300"
+        onClick={signInWithGoogle}
+      >
+        Sign in with Google
+      </button>
+      {showError && (
+        <div className="bg-red-200 p-3 mb-3 rounded-md text-red-800 mt-6">
+          {errorMessage}
+        </div>
+      )}
     </div>
   ) : (
     <div className="bg-gray-600 p-8 rounded-lg shadow-lg w-96">
