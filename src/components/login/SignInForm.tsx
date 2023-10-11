@@ -56,6 +56,7 @@ export const SignInForm: React.FC = () => {
       options: {
         queryParams: {
           access_type: "offline",
+          redirectTo: "https://webpage-iota-ecru.vercel.app/account/login",
         },
       },
     });
@@ -68,7 +69,7 @@ export const SignInForm: React.FC = () => {
       options: {
         queryParams: {
           access_type: "offline",
-          prompt: "consent",
+          redirectTo: "https://webpage-iota-ecru.vercel.app/account/login",
         },
       },
     });
