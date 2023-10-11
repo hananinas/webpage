@@ -51,14 +51,20 @@ export const SignInForm: React.FC = () => {
 
   //sign in with github
   async function signInWithGithub() {
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: "github",
+      options: {
+        queryParams: {
+          access_type: "offline",
+        },
+      },
     });
+    getUser();
   }
 
-  async function signInWithGoogle() {
+  async function signInWithSlack() {
     const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
+      provider: "slack",
       options: {
         queryParams: {
           access_type: "offline",
@@ -72,8 +78,6 @@ export const SignInForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     // Make handleSubmit an async function
     e.preventDefault(); // Prevent the default form submission
-
-    console.log(formData);
 
     const { data, error } = await supabase.auth.signInWithPassword({
       email: formData.email || "",
@@ -114,6 +118,11 @@ export const SignInForm: React.FC = () => {
       <h2 className="text-2xl font-semibold mb-4">Sign in</h2>
       <form>
         <div>
+          {showError && (
+            <div className="bg-red-200 p-3 mb-3 rounded-md text-red-800 mt-6">
+              {errorMessage}
+            </div>
+          )}
           <label htmlFor="email" className="block text-white font-medium mb-2">
             Email
           </label>
@@ -169,15 +178,10 @@ export const SignInForm: React.FC = () => {
       </button>
       <button
         className="flex flex-row justify-center items-center mt-6 w-full bg-gray-200 text-gray-700 p-2 rounded hover:bg-gray-300 transition duration-300"
-        onClick={signInWithGoogle}
+        onClick={signInWithSlack}
       >
-        Sign in with Google
+        Sign in with Slack
       </button>
-      {showError && (
-        <div className="bg-red-200 p-3 mb-3 rounded-md text-red-800 mt-6">
-          {errorMessage}
-        </div>
-      )}
     </div>
   ) : (
     <div className="bg-gray-600 p-8 rounded-lg shadow-lg w-96">
