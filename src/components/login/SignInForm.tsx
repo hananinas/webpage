@@ -54,10 +54,7 @@ export const SignInForm: React.FC = () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "github",
       options: {
-        queryParams: {
-          access_type: "offline",
-          redirectTo: "https://webpage-iota-ecru.vercel.app/account/login",
-        },
+        redirectTo: `https://webpage-iota-ecru.vercel.app/account/login`,
       },
     });
     getUser();
@@ -67,10 +64,7 @@ export const SignInForm: React.FC = () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "slack",
       options: {
-        queryParams: {
-          access_type: "offline",
-          redirectTo: "https://webpage-iota-ecru.vercel.app/account/login",
-        },
+        redirectTo: `https://webpage-iota-ecru.vercel.app/account/login`,
       },
     });
   }
