@@ -2,7 +2,6 @@ import { supabase } from "@supabase";
 import { type Session, type User } from "@supabase/supabase-js";
 import React, { type SetStateAction } from "react";
 import { useState, useEffect } from "react";
-import { AiOutlineGoogle } from "react-icons/ai";
 
 // source https://supabase.com/docs/guides/
 // Define the state type for the form data
@@ -63,6 +62,15 @@ export const SignInForm: React.FC = () => {
   async function signInWithSlack() {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "slack",
+      options: {
+        redirectTo: `https://webpage-iota-ecru.vercel.app/account/login`,
+      },
+    });
+  }
+
+  async function signInWithGoogle() {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
       options: {
         redirectTo: `https://webpage-iota-ecru.vercel.app/account/login`,
       },
@@ -176,6 +184,12 @@ export const SignInForm: React.FC = () => {
         onClick={signInWithSlack}
       >
         Sign in with Slack
+      </button>
+      <button
+        className="flex flex-row justify-center items-center mt-6 w-full bg-gray-200 text-gray-700 p-2 rounded hover:bg-gray-300 transition duration-300"
+        onClick={signInWithGoogle}
+      >
+        Sign in with google
       </button>
     </div>
   ) : (
